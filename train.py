@@ -476,8 +476,8 @@ def main():
     device = get_device()
     
     # Load data
-    fasta_path = DATA_DIR / FASTA_FILENAME
-    text_path = DATA_DIR / TEXT_FILENAME
+    fasta_path = DATA_DIR / FASTA_FILENAME.replace('.zip', '')
+    text_path = DATA_DIR / TEXT_FILENAME.replace('.zip', '')
     
     aa_sequences = load_fasta(fasta_path)
     english_text = load_text(text_path)
