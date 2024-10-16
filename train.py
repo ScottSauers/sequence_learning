@@ -41,8 +41,8 @@ FINAL_MODEL_PATH = Path("final_gpt_model.pth")
 UNIPROTKB_URL = "https://www.kaggle.com/api/v1/datasets/download/sauers/uniprotkb-human"
 SEAMUS_URL = "https://www.kaggle.com/api/v1/datasets/download/sauers/seamus"
 
-FASTA_FILENAME = "uniprotkb_Human_AND_model_organism_9606_2024_10_13.fasta"
-TEXT_FILENAME = "seamus.txt"
+FASTA_FILENAME = "uniprotkb_Human_AND_model_organism_9606_2024_10_13.fasta.zip"
+TEXT_FILENAME = "seamus.txt.zip"
 
 RANDOM_SEED = 42
 VOCAB_SIZE = 28
