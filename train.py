@@ -78,19 +78,26 @@ def download_file(url, dest_path):
 
 def unzip_file(zip_path, extract_to):
     """
-    Unzips the specified zip file. Extracts to a file if needed.
+    Unzips the specified zip file and ensures that no directories are incorrectly created.
+    Extract files directly into the data directory.
     """
-    if extract_to.is_file():  # Check if it's a file
+    if extract_to.is_file():
         logging.info(f"File '{extract_to}' already exists. Skipping unzip.")
         return
-    logging.info(f"Unzipping '{zip_path}' to '{extract_to}'...")
+    logging.info(f"Unzipping '{zip_path}' into the data directory...")
     try:
         with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-            zip_ref.extractall(DATA_DIR)  # Extract directly into the data directory
+            for file_info in zip_ref.infolist():
+                extracted_path = DATA_DIR / file_info.filename
+                if extracted_path.is_dir():
+                    logging.error(f"Unexpected directory '{extracted_path}' encountered. Exiting.")
+                    sys.exit(1)
+            zip_ref.extractall(DATA_DIR)  # Extract only files
         logging.info(f"Unzipped '{zip_path}' successfully.")
     except Exception as e:
         logging.error(f"Failed to unzip '{zip_path}': {e}")
         sys.exit(1)
+
 
 def download_datasets():
     """
