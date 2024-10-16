@@ -4,6 +4,7 @@ import random
 import string
 import shutil
 import gzip
+import zipfile
 import logging
 from datetime import datetime
 from pathlib import Path
