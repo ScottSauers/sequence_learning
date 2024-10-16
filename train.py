@@ -78,15 +78,15 @@ def download_file(url, dest_path):
 
 def unzip_file(zip_path, extract_to):
     """
-    Unzips the specified zip file to the given extraction directory.
+    Unzips the specified zip file. Extracts to a file if needed.
     """
-    if extract_to.exists():
-        logging.info(f"Extraction directory '{extract_to}' already exists. Skipping unzip.")
+    if extract_to.is_file():  # Check if it's a file
+        logging.info(f"File '{extract_to}' already exists. Skipping unzip.")
         return
     logging.info(f"Unzipping '{zip_path}' to '{extract_to}'...")
     try:
         with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-            zip_ref.extractall(extract_to)
+            zip_ref.extractall(DATA_DIR)  # Extract directly into the data directory
         logging.info(f"Unzipped '{zip_path}' successfully.")
     except Exception as e:
         logging.error(f"Failed to unzip '{zip_path}': {e}")
