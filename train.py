@@ -75,6 +75,22 @@ def download_file(url, dest_path):
         logging.error(f"Failed to download '{url}': {e}")
         sys.exit(1)
 
+def unzip_file(zip_path, extract_to):
+    """
+    Unzips the specified zip file to the given extraction directory.
+    """
+    if extract_to.exists():
+        logging.info(f"Extraction directory '{extract_to}' already exists. Skipping unzip.")
+        return
+    logging.info(f"Unzipping '{zip_path}' to '{extract_to}'...")
+    try:
+        with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+            zip_ref.extractall(extract_to)
+        logging.info(f"Unzipped '{zip_path}' successfully.")
+    except Exception as e:
+        logging.error(f"Failed to unzip '{zip_path}': {e}")
+        sys.exit(1)
+
 def download_datasets():
     """
     Download the specified datasets if they are not already present in the data directory.
@@ -87,6 +103,10 @@ def download_datasets():
     for url, filename in datasets.items():
         file_path = DATA_DIR / filename
         download_file(url, file_path)
+        
+        # Unzip the downloaded file
+        extract_dir = DATA_DIR / filename.replace('.zip', '')
+        unzip_file(file_path, extract_dir)
 
 def manage_checkpoints(delete_checkpoints=True):
     """
